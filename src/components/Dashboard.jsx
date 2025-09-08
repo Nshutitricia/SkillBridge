@@ -80,6 +80,7 @@ export default function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [showCommunity, setShowCommunity] = useState(false);
+  const [activeNav, setActiveNav] = useState('Dashboard');
   const navigate = useNavigate();
 
   const [user, setUser] = useState({
@@ -293,9 +294,16 @@ export default function Dashboard() {
             {navItems.map((item, idx) => (
               <button
                 key={item.name}
-                className={`flex items-center w-full px-4 py-3 text-gray-700 hover:bg-green-100 transition-colors text-left font-medium rounded-xl mb-2 ${idx === 0 ? 'bg-green-50 font-bold text-green-700' : ''} ${collapsed ? 'justify-center px-2' : ''}`}
+                className={`flex items-center w-full px-4 py-3 text-gray-700 hover:bg-green-100 transition-colors text-left font-medium rounded-xl mb-2
+                  ${activeNav === item.name ? 'bg-green-50 font-bold text-green-700' : ''}
+                  ${collapsed ? 'justify-center px-2' : ''}`}
                 onClick={() => {
-                  if (item.name === 'Community') setShowCommunity(true);
+                  setActiveNav(item.name);
+                  if (item.name === 'Community') {
+                    setShowCommunity(true);
+                  } else if (item.name === 'Dashboard') {
+                    setShowCommunity(false);
+                  }
                 }}
               >
                 <span>{item.icon}</span>
@@ -341,9 +349,16 @@ export default function Dashboard() {
                 {navItems.map((item, idx) => (
                   <button
                     key={item.name}
-                    className={`flex items-center w-full px-4 py-3 text-gray-700 hover:bg-green-100 transition-colors text-left font-medium rounded-xl mb-2 ${idx === 0 ? 'bg-green-50 font-bold text-green-700' : ''}`}
+                    className={`flex items-center w-full px-4 py-3 text-gray-700 hover:bg-green-100 transition-colors text-left font-medium rounded-xl mb-2
+                      ${activeNav === item.name ? 'bg-green-50 font-bold text-green-700' : ''}`}
                     onClick={() => {
-                      if (item.name === 'Community') setShowCommunity(true);
+                      setActiveNav(item.name);
+                      setSidebarOpen(false); // Close sidebar on nav click
+                      if (item.name === 'Community') {
+                        setShowCommunity(true);
+                      } else if (item.name === 'Dashboard') {
+                        setShowCommunity(false);
+                      }
                     }}
                   >
                     <span>{item.icon}</span>
@@ -367,7 +382,7 @@ export default function Dashboard() {
   <main className={`flex-1 min-h-screen h-screen overflow-auto flex flex-col pt-24 md:pt-12 ml-0 ${collapsed ? 'md:ml-16' : 'md:ml-64'} px-4 md:px-12 pb-4 md:pb-12 transition-all duration-300`}>
     {showCommunity ? (
       <>
-        <button className="mb-4 px-4 py-2 bg-gray-100 rounded-lg text-gray-600 font-semibold w-fit" onClick={() => setShowCommunity(false)}>
+        <button className="mb-4 px-4 py-2 bg-gray-100 rounded-lg text-gray-600 font-semibold w-fit" onClick={() => { setShowCommunity(false); setActiveNav('Dashboard'); }}>
           ← Back to Dashboard
         </button>
         <header className="mb-6 md:mb-10">
