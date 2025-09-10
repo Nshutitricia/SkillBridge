@@ -94,3 +94,102 @@ export async function ensureUserProfile(partial = {}) {
   }
   return { already: true, unchanged: true };
 }
+
+// Admin functions
+export async function checkAdminRole(userId) {
+  const { data, error } = await supabase
+    .from('user_roles')
+    .select('role_name')
+    .eq('user_id', userId)
+    .eq('role_name', 'admin')
+    .eq('is_active', true)
+    .single();
+  
+  return { isAdmin: !!data, error };
+}
+
+export async function getAdminStats() {
+  const { data, error } = await supabase.rpc('get_admin_stats');
+  return { data, error };
+}
+
+export async function getAllUsers(limit = 50, offset = 0) {
+  const { data, error } = await supabase
+    .from('user_profiles')
+    .select(`
+      id, 
+      full_name, 
+      email, 
+      created_at, 
+      current_occupation_id,
+      skill_assessment_completed,
+      onboarding_completed,
+      occupations(preferred_label)
+    `)
+    .order('created_at', { ascending: false })
+    .range(offset, offset + limit - 1);
+  
+  return { data, error };
+}
+
+export async function getUserById(userId) {
+  const { data, error } = await supabase
+    .from('user_profiles')
+    .select(`
+      *,
+      occupations(preferred_label),
+      user_skills(skill_id, skills(preferred_label))
+    `)
+    .eq('id', userId)
+    .single();
+  
+  return { data, error };
+}
+
+export async function updateUserProfile(userId, updates) {
+  const { data, error } = await supabase
+    .from('user_profiles')
+    .update(updates)
+    .eq('id', userId)
+    .select();
+  
+  return { data, error };
+}
+
+export async function assignAdminRole(userId) {
+  const { data, error } = await supabase
+    .from('user_roles')
+    .insert({
+      user_id: userId,
+      role_name: 'admin',
+      is_active: true
+    });
+  
+  return { data, error };
+}
+
+export async function removeAdminRole(userId) {
+  const { data, error } = await supabase
+    .from('user_roles')
+    .update({ is_active: false })
+    .eq('user_id', userId)
+    .eq('role_name', 'admin');
+  
+  return { data, error };
+}
+
+export async function logAdminAction(actionType, targetUserId, details = {}) {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { error: 'Not authenticated' };
+
+  const { data, error } = await supabase
+    .from('admin_actions')
+    .insert({
+      admin_id: user.id,
+      action_type: actionType,
+      target_user_id: targetUserId,
+      details: details
+    });
+  
+  return { data, error };
+}

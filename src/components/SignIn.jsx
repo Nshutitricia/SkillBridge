@@ -94,6 +94,7 @@ const SignIn = () => {
         return;
       }
       if (prof && prof.skill_assessment_completed) {
+        // Let the AuthContext handle role-based redirect
         navigate('/dashboard');
         return;
       }
