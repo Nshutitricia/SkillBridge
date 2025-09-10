@@ -1,13 +1,12 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useEffect } from 'react';
 import { supabase, ensureUserProfile } from './supabaseClient';
-import Navbar from "./components/Navbar"
-import Hero from "./components/Hero"
-import AnimatedStats from "./components/AnimatedStats"
-import TrendingJobs from "./components/TrendingJobs"
-import FeaturesGrid from "./components/FeaturesGrid"
-import Footer from "./components/Footer"
-
+import Navbar from "./components/Navbar";
+import Hero from "./components/Hero";
+import AnimatedStats from "./components/AnimatedStats";
+import TrendingJobs from "./components/TrendingJobs";
+import FeaturesGrid from "./components/FeaturesGrid";
+import Footer from "./components/Footer";
 import SignUp from "./components/SignUp";
 import Login from "./components/Login";
 import SignIn from "./components/SignIn";
@@ -17,8 +16,8 @@ import CompleteProfile from "./components/CompleteProfile";
 import OccupationOnboarding from "./components/OccupationOnboarding";
 import SkillAssessment from "./components/SkillAssessment";
 import Dashboard from "./components/Dashboard";
+import SupportChatSupabase from "./components/SupportChatSupabase";
 import { useLocation } from "react-router-dom";
-
 
 function App() {
   useEffect(() => {
@@ -35,20 +34,22 @@ function App() {
   return (
     <Router>
       <div className="min-h-screen bg-white">
+        {/* Floating Support Chat - always visible, uses Supabase for real user data */}
+        <SupportChatSupabase />
         <Routes>
           <Route
             path="/"
             element={
-                <>
-                  <Navbar />
-                  <main>
-                    <Hero />
-                    <AnimatedStats />
-                    <TrendingJobs />
-                    <FeaturesGrid />
-                  </main>
-                  <Footer />
-                </>
+              <>
+                <Navbar />
+                <main>
+                  <Hero />
+                  <AnimatedStats />
+                  <TrendingJobs />
+                  <FeaturesGrid />
+                </main>
+                <Footer />
+              </>
             }
           />
           <Route path="/signin" element={<><Navbar /><SignIn /><Footer /></>} />
@@ -68,14 +69,14 @@ function App() {
           />
           <Route
             path="/community"
-            element={<><Navbar /><div className="pt-20 p-8 text-center"><h1 className="text-2xl font-bold">Community Page - Coming Soon</h1></div><Footer /></>}
+            element={<><Navbar /><div className="pt-20 p-8 text-center"><h1 className="text-2xl font-bold">Community Page - Coming Soon</h1></div><Footer /></>} 
           />
           <Route path="/onboarding/skills" element={<><Navbar /><SkillAssessmentWrapper /><Footer /></>} />
           <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
       </div>
     </Router>
-  )
+  );
 }
 
 // Add wrapper to extract occupationId from navigation state
@@ -85,4 +86,4 @@ function SkillAssessmentWrapper() {
   return <SkillAssessment occupationId={occupationId} />;
 }
 
-export default App
+export default App;

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import RecommendedOccupations from './RecommendedOccupations';
+import ResumeBuilder from './ResumeBuilder';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
 import Community from './Community';
@@ -15,6 +16,14 @@ const navItems = [
       </svg>
     ),
     active: true
+  },
+  {
+    name: 'Resume',
+    icon: (
+      <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 16h8M8 12h8M8 8h8M4 6a2 2 0 012-2h8a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V6z" />
+      </svg>
+    )
   },
   { 
     name: 'Skills & Assessment', 
@@ -79,7 +88,7 @@ export default function Dashboard() {
   const [collapsed, setCollapsed] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [showCommunity, setShowCommunity] = useState(false);
+  // const [showCommunity, setShowCommunity] = useState(false); // No longer needed
   const [activeNav, setActiveNav] = useState('Dashboard');
   const navigate = useNavigate();
 
@@ -90,7 +99,7 @@ export default function Dashboard() {
     id: '',
   });
   const [occupationName, setOccupationName] = useState('');
-  const [skills, setSkills] = useState([]);
+  // const [skills, setSkills] = useState([]); // No longer needed
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
@@ -100,7 +109,7 @@ export default function Dashboard() {
         setLoading(true);
         
         // Get the authenticated user
-        const { data: { user: authUser }, error: authError } = await supabase.auth.getUser();
+  const { data: { user: authUser } } = await supabase.auth.getUser();
         console.log('Auth user:', authUser?.email || 'No user');
         
 
@@ -225,12 +234,12 @@ export default function Dashboard() {
           return;
         }
         if (!userSkills || userSkills.length === 0) {
-          setSkills([]);
+    // setSkills([]); // removed unused state
           return;
         }
         const skillIds = userSkills.map(s => s.skill_id);
         const { data: skillRows } = await supabase.from('skills').select('csv_id, preferred_label').in('csv_id', skillIds);
-        setSkills(skillRows || []);
+  // setSkills(skillRows || []); // removed unused state
       } catch (e) {
         console.warn('Error fetching skills', e);
       }
@@ -291,7 +300,7 @@ export default function Dashboard() {
           </div>
           {/* Navigation Menu */}
           <nav className="mt-8">
-            {navItems.map((item, idx) => (
+            {navItems.map((item) => (
               <button
                 key={item.name}
                 className={`flex items-center w-full px-4 py-3 text-gray-700 hover:bg-green-100 transition-colors text-left font-medium rounded-xl mb-2
@@ -299,11 +308,7 @@ export default function Dashboard() {
                   ${collapsed ? 'justify-center px-2' : ''}`}
                 onClick={() => {
                   setActiveNav(item.name);
-                  if (item.name === 'Community') {
-                    setShowCommunity(true);
-                  } else if (item.name === 'Dashboard') {
-                    setShowCommunity(false);
-                  }
+                  // No longer toggling showCommunity
                 }}
               >
                 <span>{item.icon}</span>
@@ -346,7 +351,7 @@ export default function Dashboard() {
               </div>
               {/* Navigation Menu */}
               <nav className="mt-6">
-                {navItems.map((item, idx) => (
+                {navItems.map((item) => (
                   <button
                     key={item.name}
                     className={`flex items-center w-full px-4 py-3 text-gray-700 hover:bg-green-100 transition-colors text-left font-medium rounded-xl mb-2
@@ -354,11 +359,7 @@ export default function Dashboard() {
                     onClick={() => {
                       setActiveNav(item.name);
                       setSidebarOpen(false); // Close sidebar on nav click
-                      if (item.name === 'Community') {
-                        setShowCommunity(true);
-                      } else if (item.name === 'Dashboard') {
-                        setShowCommunity(false);
-                      }
+                      // No longer toggling showCommunity
                     }}
                   >
                     <span>{item.icon}</span>
@@ -380,21 +381,28 @@ export default function Dashboard() {
 
       {/* Main Content */}
   <main className={`flex-1 min-h-screen h-screen overflow-auto flex flex-col pt-24 md:pt-12 ml-0 ${collapsed ? 'md:ml-16' : 'md:ml-64'} px-4 md:px-12 pb-4 md:pb-12 transition-all duration-300`}>
-    {showCommunity ? (
+    {activeNav === 'Community' ? (
       <>
-        <button className="mb-4 px-4 py-2 bg-gray-100 rounded-lg text-gray-600 font-semibold w-fit" onClick={() => { setShowCommunity(false); setActiveNav('Dashboard'); }}>
+        <button className="mb-4 px-4 py-2 bg-gray-100 rounded-lg text-gray-600 font-semibold w-fit" onClick={() => setActiveNav('Dashboard')}>
           ← Back to Dashboard
         </button>
         <header className="mb-6 md:mb-10">
           <h1 className="text-xl md:text-4xl font-extrabold text-green-700 mb-2">Community</h1>
         </header>
         <div className="flex-1 flex flex-col">
-          {/* Community page */}
-          {/* @ts-ignore */}
           <React.Suspense fallback={<div>Loading Community...</div>}>
             {user.id && <Community userId={user.id} />}
           </React.Suspense>
         </div>
+      </>
+    ) : activeNav === 'Resume' ? (
+      <>
+        <header className="mb-6 md:mb-10">
+          <h1 className="text-xl md:text-4xl font-extrabold text-green-700 mb-2">Resume Builder</h1>
+        </header>
+        <React.Suspense fallback={<div>Loading Resume Builder...</div>}>
+          {user.id && <ResumeBuilder userId={user.id} />}
+        </React.Suspense>
       </>
     ) : (
       <>
