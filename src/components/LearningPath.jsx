@@ -31,7 +31,7 @@ const LearningPath = () => {
                 duration: '4 weeks',
                 rating: '4.6',
                 students: '1.8k',
-                priorityColor: 'bg-orange-500'
+                priorityColor: 'bg-green-400'
             },
             {
                 title: 'Digital Marketing for Beauty Salons',
@@ -49,7 +49,7 @@ const LearningPath = () => {
                 duration: '3 weeks',
                 rating: '4.5',
                 students: '1.2k',
-                priorityColor: 'bg-gray-500'
+                priorityColor: 'bg-green-300'
             }
         ],
         'web-developer': [
@@ -78,7 +78,7 @@ const LearningPath = () => {
                 duration: '8 weeks',
                 rating: '4.6',
                 students: '5.4k',
-                priorityColor: 'bg-orange-500'
+                priorityColor: 'bg-green-400'
             },
             {
                 title: 'API Design & Development',
@@ -156,7 +156,7 @@ const LearningPath = () => {
 
     const CourseCard = ({ course }) => (
         <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-l-4 border-green-500 relative overflow-hidden group">
-            <div className="absolute inset-0 bg-gradient-to-r from-green-50/50 to-blue-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-green-50/50 to-green-100/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             <div className="relative">
                 <div className={`absolute top-0 right-0 ${course.priorityColor} text-white px-3 py-1 rounded-full text-xs font-bold`}>
                     {course.priority}
@@ -179,7 +179,7 @@ const LearningPath = () => {
         <div className={`flex mb-4 animate-fade-in ${type === 'user' ? 'flex-row-reverse' : ''}`}>
             <div className={`w-10 h-10 rounded-full flex items-center justify-center text-lg ${
                 type === 'ai' 
-                    ? 'bg-gradient-to-r from-blue-500 to-purple-600' 
+                    ? 'bg-gradient-to-r from-green-500 to-green-600' 
                     : 'bg-gradient-to-r from-green-500 to-green-600'
             } ${type === 'user' ? 'ml-3' : 'mr-3'}`}>
                 {type === 'ai' ? '🤖' : '👤'}
@@ -195,11 +195,11 @@ const LearningPath = () => {
     );
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-purple-50">
+        <div className="min-h-screen bg-gradient-to-br from-green-50 via-green-100 to-green-200">
             <div className="container mx-auto px-4 py-8">
                 {/* Header */}
                 <div className="text-center mb-8">
-                    <h1 className="text-4xl md:text-6xl font-extrabold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent mb-4">
+                    <h1 className="text-4xl md:text-6xl font-extrabold bg-gradient-to-r from-green-600 to-green-400 bg-clip-text text-transparent mb-4">
                         Learning Path
                     </h1>
                     <p className="text-gray-600 text-lg">Personalized courses and resources to master your target skills</p>
@@ -208,24 +208,24 @@ const LearningPath = () => {
                 {/* Tab Navigation */}
                 <div className="flex bg-white/70 backdrop-blur-sm rounded-2xl p-2 mb-8 max-w-2xl mx-auto shadow-lg">
                     <button
-                        className={`flex-1 py-4 px-6 rounded-xl font-semibold transition-all duration-300 ${
+                        className={`flex-1 cursor-pointer py-4 px-6 rounded-xl font-semibold transition-all duration-300 ${
                             activeTab === 'courses'
-                                ? 'bg-gradient-to-r from-green-500 to-blue-500 text-white shadow-lg transform scale-105'
+                                ? 'bg-gradient-to-r from-green-500 to-green-600 text-white shadow-lg transform scale-105'
                                 : 'text-gray-600 hover:text-gray-800 hover:bg-white/50'
                         }`}
                         onClick={() => setActiveTab('courses')}
                     >
-                        📚 Recommended Courses
+                     Recommended Courses
                     </button>
                     <button
-                        className={`flex-1 py-4 px-6 rounded-xl font-semibold transition-all duration-300 ${
+                        className={`flex-1 cursor-pointer py-4 px-6 rounded-xl font-semibold transition-all duration-300 ${
                             activeTab === 'llm-search'
-                                ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg transform scale-105'
+                                ? 'bg-gradient-to-r from-green-500 to-green-600 text-white shadow-lg transform scale-105'
                                 : 'text-gray-600 hover:text-gray-800 hover:bg-white/50'
                         }`}
                         onClick={() => setActiveTab('llm-search')}
                     >
-                        🤖 AI Course Discovery
+                         Smart Course Finder
                     </button>
                 </div>
 
@@ -233,7 +233,7 @@ const LearningPath = () => {
                 {activeTab === 'courses' && (
                     <div className="space-y-8 animate-fade-in">
                         {/* Career Path Selector */}
-                        <div className="bg-gradient-to-r from-green-100 to-blue-100 rounded-2xl p-6 text-center">
+                        <div className="bg-gradient-to-r from-green-100 to-green-200 rounded-2xl p-6 text-center">
                             <h3 className="text-xl font-semibold mb-4">Select Your Target Career Path</h3>
                             <select 
                                 value={selectedCareer}
@@ -253,7 +253,7 @@ const LearningPath = () => {
                             <h3 className="text-xl font-semibold mb-2">Your Learning Progress</h3>
                             <p className="text-gray-600 mb-4">Overall completion: 35%</p>
                             <div className="bg-gray-200 rounded-full h-4 overflow-hidden">
-                                <div className="bg-gradient-to-r from-green-500 to-blue-500 h-full rounded-full transition-all duration-1000 ease-out" style={{ width: '35%' }}></div>
+                                <div className="bg-gradient-to-r from-green-500 to-green-600 h-full rounded-full transition-all duration-1000 ease-out" style={{ width: '35%' }}></div>
                             </div>
                         </div>
 
@@ -273,7 +273,7 @@ const LearningPath = () => {
                 {activeTab === 'llm-search' && (
                     <div className="space-y-8 animate-fade-in">
                         <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-8 shadow-lg text-center">
-                            <h2 className="text-2xl font-bold mb-4 text-gray-800">🤖 AI-Powered Course Discovery</h2>
+                            <h2 className="text-2xl font-bold mb-4 text-gray-800"> Smart Course Finder</h2>
                             <p className="text-gray-600 mb-6">Ask our AI assistant to find specific courses, skills, or learning resources tailored to your needs</p>
                             
                             {/* Search Input */}
@@ -284,11 +284,11 @@ const LearningPath = () => {
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                     onKeyPress={(e) => e.key === 'Enter' && handleSearch(searchQuery)}
                                     placeholder="Ask: 'Find courses on advanced braiding techniques' or 'What skills do I need for salon management?'"
-                                    className="w-full px-6 py-4 pr-12 border-2 border-blue-300 rounded-full text-lg bg-white focus:outline-none focus:ring-4 focus:ring-blue-200 transition-all"
+                                    className="w-full px-6 py-4 pr-12 border-2 border-green-300 rounded-full text-lg bg-white focus:outline-none focus:ring-4 focus:ring-green-200 transition-all"
                                 />
                                 <button
                                     onClick={() => handleSearch(searchQuery)}
-                                    className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gradient-to-r from-blue-500 to-purple-500 text-white w-10 h-10 rounded-full hover:scale-110 transition-all duration-300"
+                                    className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gradient-to-r from-green-500 to-green-600 text-white w-10 h-10 rounded-full hover:scale-110 transition-all duration-300"
                                 >
                                     🔍
                                 </button>
@@ -305,7 +305,7 @@ const LearningPath = () => {
                                                 setSearchQuery(tag);
                                                 handleSearch(tag);
                                             }}
-                                            className="px-4 py-2 bg-blue-100 text-blue-700 rounded-full hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-500 hover:text-white transform hover:-translate-y-1 transition-all duration-300"
+                                            className="px-4 py-2 bg-green-100 text-green-700 rounded-full hover:bg-gradient-to-r hover:from-green-500 hover:to-green-600 hover:text-white transform hover:-translate-y-1 transition-all duration-300"
                                         >
                                             {tag}
                                         </button>
@@ -328,7 +328,7 @@ const LearningPath = () => {
                                                 <span>⭐ {result.rating}</span>
                                                 <span>📚 {result.level}</span>
                                             </div>
-                                            <button className="w-full bg-gradient-to-r from-blue-500 to-purple-500 text-white py-2 px-4 rounded-full text-sm font-semibold hover:from-blue-600 hover:to-purple-600 transition-all duration-300">
+                                            <button className="w-full bg-gradient-to-r from-green-500 to-green-600 text-white py-2 px-4 rounded-full text-sm font-semibold hover:from-green-600 hover:to-green-700 transition-all duration-300">
                                                 Enroll Now
                                             </button>
                                         </div>
@@ -339,7 +339,7 @@ const LearningPath = () => {
 
                         {/* Chat Interface */}
                         <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-                            <div className="p-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white">
+                            <div className="p-4 bg-gradient-to-r from-green-500 to-green-600 text-white">
                                 <h3 className="font-semibold">Chat with AI Assistant</h3>
                             </div>
                             <div className="h-96 overflow-y-auto p-4 bg-gray-50">
@@ -354,11 +354,11 @@ const LearningPath = () => {
                                     onChange={(e) => setChatInput(e.target.value)}
                                     onKeyPress={(e) => e.key === 'Enter' && handleChatSend()}
                                     placeholder="Type your question or search query..."
-                                    className="flex-1 px-4 py-2 border-2 border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+                                    className="flex-1 px-4 py-2 border-2 border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-green-500 transition-all"
                                 />
                                 <button
                                     onClick={handleChatSend}
-                                    className="px-6 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-full font-semibold hover:from-blue-600 hover:to-purple-600 transform hover:-translate-y-0.5 transition-all duration-300"
+                                    className="px-6 py-2 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-full font-semibold hover:from-green-600 hover:to-green-700 transform hover:-translate-y-0.5 transition-all duration-300"
                                 >
                                     Send
                                 </button>
