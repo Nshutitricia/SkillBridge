@@ -16,8 +16,6 @@ import CompleteProfile from "./components/CompleteProfile";
 import OccupationOnboarding from "./components/OccupationOnboarding";
 import SkillAssessment from "./components/SkillAssessment";
 import Dashboard from "./components/Dashboard";
-
-import LearningPath from "./components/LearningPath";
 import SupportChatSupabase from "./components/SupportChatSupabase";
 import { useLocation } from "react-router-dom";
 
@@ -74,7 +72,6 @@ function App() {
             element={<><Navbar /><div className="pt-20 p-8 text-center"><h1 className="text-2xl font-bold">Community Page - Coming Soon</h1></div><Footer /></>} 
           />
           <Route path="/onboarding/skills" element={<><Navbar /><SkillAssessmentWrapper /><Footer /></>} />
-          <Route path="/learning-path" element={<><Navbar /><LearningPath /><Footer /></>} />
           <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
       </div>

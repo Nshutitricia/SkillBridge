@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
-import LearningPath from './LearningPath';
 
 export default function CareerGoalDashboard({ userId }) {
   const [goal, setGoal] = useState(null);
@@ -122,12 +120,7 @@ export default function CareerGoalDashboard({ userId }) {
         <h2 className="text-lg font-bold text-green-700 mb-2">Learning Path Starter</h2>
         <div className="mb-2">{learningPath?.title}</div>
         <div className="text-gray-600 mb-2">{learningPath?.description}</div>
-        <Link
-        to='/learning-path'
-          className="bg-green-600 text-white px-4 py-2 rounded-xl font-bold hover:bg-green-700 w-full sm:w-auto"
-        >
-          Start Learning
-        </Link>
+        <button className="bg-green-600 text-white px-4 py-2 rounded-xl font-bold hover:bg-green-700 w-full sm:w-auto">Start Learning</button>
       </div>
       {/* Career Goal Management */}
       <div className="text-sm text-gray-500 text-right">Your progress will be saved in Career Journey</div>
