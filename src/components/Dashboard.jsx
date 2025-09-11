@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import RecommendedOccupations from './RecommendedOccupations';
 import ResumeBuilder from './ResumeBuilder';
-import { useNavigate } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
 import Community from './Community';
+import LearningPath from './LearningPath';
 
 // Navigation items configuration
 const navItems = [
-  { 
-    name: 'Dashboard', 
+  {
+    name: 'Dashboard',
     icon: (
       <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z" />
@@ -25,8 +25,8 @@ const navItems = [
       </svg>
     )
   },
-  { 
-    name: 'Skills & Assessment', 
+  {
+    name: 'Skills & Assessment',
     icon: (
       <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
@@ -41,40 +41,40 @@ const navItems = [
       </svg>
     )
   },
-  { 
-    name: 'Job Search', 
+  {
+    name: 'Job Search',
     icon: (
       <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
       </svg>
     )
   },
-  { 
-    name: 'Learning Path', 
+  {
+    name: 'Learning Path',
     icon: (
       <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
       </svg>
     )
   },
-  { 
-    name: 'Community', 
+  {
+    name: 'Community',
     icon: (
       <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
       </svg>
     )
   },
-  { 
-    name: 'Find Mentors', 
+  {
+    name: 'Find Mentors',
     icon: (
       <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
       </svg>
     )
   },
-  { 
-    name: 'Settings', 
+  {
+    name: 'Settings',
     icon: (
       <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
@@ -90,7 +90,6 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   // const [showCommunity, setShowCommunity] = useState(false); // No longer needed
   const [activeNav, setActiveNav] = useState('Dashboard');
-  const navigate = useNavigate();
 
   const [user, setUser] = useState({
     avatar: '',
@@ -107,11 +106,11 @@ export default function Dashboard() {
       try {
         console.log('🚀 Starting profile fetch...');
         setLoading(true);
-        
+
         // Get the authenticated user
-  const { data: { user: authUser } } = await supabase.auth.getUser();
+        const { data: { user: authUser } } = await supabase.auth.getUser();
         console.log('Auth user:', authUser?.email || 'No user');
-        
+
 
         if (!authUser) {
           console.log('No authenticated user found');
@@ -168,7 +167,7 @@ export default function Dashboard() {
                 .select('preferred_label')
                 .eq('csv_id', occupationId)
                 .single();
-              
+
               if (occ && occ.preferred_label && !occError) {
                 const label = occ.preferred_label;
                 const capitalized = label.charAt(0).toUpperCase() + label.slice(1);
@@ -187,11 +186,11 @@ export default function Dashboard() {
         } else {
           // No profile in database, use auth data
           console.log('Using auth data as fallback');
-          const authName = authUser.user_metadata?.full_name || 
-                           authUser.user_metadata?.name || 
-                           authUser.email || 
-                           'User';
-          
+          const authName = authUser.user_metadata?.full_name ||
+            authUser.user_metadata?.name ||
+            authUser.email ||
+            'User';
+
           setUser({
             avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(authName)}&background=10b981&color=fff`,
             name: authName,
@@ -199,7 +198,7 @@ export default function Dashboard() {
           });
           setOccupationName('Complete your profile');
         }
-        
+
       } catch (error) {
         console.error('Error in fetchUserProfile:', error);
         // Set fallback user data
@@ -214,7 +213,7 @@ export default function Dashboard() {
         setLoading(false);
       }
     }
-    
+
     fetchUserProfile();
   }, []);
 
@@ -234,12 +233,12 @@ export default function Dashboard() {
           return;
         }
         if (!userSkills || userSkills.length === 0) {
-    // setSkills([]); // removed unused state
+          // setSkills([]); // removed unused state
           return;
         }
         const skillIds = userSkills.map(s => s.skill_id);
         const { data: skillRows } = await supabase.from('skills').select('csv_id, preferred_label').in('csv_id', skillIds);
-  // setSkills(skillRows || []); // removed unused state
+        // setSkills(skillRows || []); // removed unused state
       } catch (e) {
         console.warn('Error fetching skills', e);
       }
@@ -281,8 +280,8 @@ export default function Dashboard() {
         </div>
       )}
 
-  {/* Desktop Sidebar */}
-  <aside className={`hidden md:flex h-screen flex-col justify-between fixed top-0 left-0 z-40 bg-white shadow-xl transition-all duration-300 ${collapsed ? 'w-16' : 'w-64'} rounded-r-3xl border-r border-gray-200 overflow-y-auto`}> 
+      {/* Desktop Sidebar */}
+      <aside className={`hidden md:flex h-screen flex-col justify-between fixed top-0 left-0 z-40 bg-white shadow-xl transition-all duration-300 ${collapsed ? 'w-16' : 'w-64'} rounded-r-3xl border-r border-gray-200 overflow-y-auto`}>
         <div>
           {/* Logo */}
           <div className="flex items-center justify-center py-8 border-b border-gray-100">
@@ -306,10 +305,7 @@ export default function Dashboard() {
                 className={`flex items-center w-full px-4 py-3 text-gray-700 hover:bg-green-100 transition-colors text-left font-medium rounded-xl mb-2
                   ${activeNav === item.name ? 'bg-green-50 font-bold text-green-700' : ''}
                   ${collapsed ? 'justify-center px-2' : ''}`}
-                onClick={() => {
-                  setActiveNav(item.name);
-                  // No longer toggling showCommunity
-                }}
+                onClick={() => setActiveNav(item.name)}
               >
                 <span>{item.icon}</span>
                 {!collapsed && <span className="ml-3 hidden md:inline">{item.name}</span>}
@@ -380,50 +376,52 @@ export default function Dashboard() {
       )}
 
       {/* Main Content */}
-  <main className={`flex-1 min-h-screen h-screen overflow-auto flex flex-col pt-24 md:pt-12 ml-0 ${collapsed ? 'md:ml-16' : 'md:ml-64'} px-4 md:px-12 pb-4 md:pb-12 transition-all duration-300`}>
-    {activeNav === 'Community' ? (
-      <>
-        <button className="mb-4 px-4 py-2 bg-gray-100 rounded-lg text-gray-600 font-semibold w-fit" onClick={() => setActiveNav('Dashboard')}>
-          ← Back to Dashboard
-        </button>
-        <header className="mb-6 md:mb-10">
-          <h1 className="text-xl md:text-4xl font-extrabold text-green-700 mb-2">Community</h1>
-        </header>
-        <div className="flex-1 flex flex-col">
-          <React.Suspense fallback={<div>Loading Community...</div>}>
-            {user.id && <Community userId={user.id} />}
-          </React.Suspense>
-        </div>
-      </>
-    ) : activeNav === 'Resume' ? (
-      <>
-        <header className="mb-6 md:mb-10">
-          <h1 className="text-xl md:text-4xl font-extrabold text-green-700 mb-2">Resume Builder</h1>
-        </header>
-        <React.Suspense fallback={<div>Loading Resume Builder...</div>}>
-          {user.id && <ResumeBuilder userId={user.id} />}
-        </React.Suspense>
-      </>
-    ) : (
-      <>
-        <header className="mb-6 md:mb-10">
-          <h1 className="text-xl md:text-4xl font-extrabold text-green-700 mb-2">
-            Greetings{user.name && user.name !== 'User' ? `, ${user.name}` : ''}!
-          </h1>
-          <p className="text-gray-600 mt-2 text-sm md:text-lg">Select your dream role from the recommendations below or search for another occupation.</p>
-        </header>
-        {/* Skills summary removed as requested */}
-        {/* Recommended Occupations & Search bar only if dashboard is not shown */}
-        <RecommendedOccupations
-          userId={user.id}
-          currentOccupationId={user.occupationId}
-          searchTerm={searchTerm}
-          setSearchTerm={setSearchTerm}
-          renderSearchBar={true}
-        />
-      </>
-    )}
-  </main>
+      <main className={`flex-1 min-h-screen h-screen overflow-auto flex flex-col pt-24 md:pt-12 ml-0 ${collapsed ? 'md:ml-16' : 'md:ml-64'} px-4 md:px-12 pb-4 md:pb-12 transition-all duration-300`}>
+        {activeNav === 'Community' ? (
+          <>
+            <button className="mb-4 px-4 py-2 bg-gray-100 rounded-lg text-gray-600 font-semibold w-fit" onClick={() => setActiveNav('Dashboard')}>
+              ← Back to Dashboard
+            </button>
+            <header className="mb-6 md:mb-10">
+              <h1 className="text-xl md:text-4xl font-extrabold text-green-700 mb-2">Community</h1>
+            </header>
+            <div className="flex-1 flex flex-col">
+              <React.Suspense fallback={<div>Loading Community...</div>}>
+                {user.id && <Community userId={user.id} />}
+              </React.Suspense>
+            </div>
+          </>
+        ) : activeNav === 'Resume' ? (
+          <>
+            <header className="mb-6 md:mb-10">
+              <h1 className="text-xl md:text-4xl font-extrabold text-green-700 mb-2">Resume Builder</h1>
+            </header>
+            <React.Suspense fallback={<div>Loading Resume Builder...</div>}>
+              {user.id && <ResumeBuilder userId={user.id} />}
+            </React.Suspense>
+          </>
+        ) : activeNav === 'Learning Path' ? (
+          <LearningPath />
+        ) : (
+          <>
+            <header className="mb-6 md:mb-10">
+              <h1 className="text-xl md:text-4xl font-extrabold text-green-700 mb-2">
+                Greetings{user.name && user.name !== 'User' ? `, ${user.name}` : ''}!
+              </h1>
+              <p className="text-gray-600 mt-2 text-sm md:text-lg">Select your dream role from the recommendations below or search for another occupation.</p>
+            </header>
+            {/* Skills summary removed as requested */}
+            {/* Recommended Occupations & Search bar only if dashboard is not shown */}
+            <RecommendedOccupations
+              userId={user.id}
+              currentOccupationId={user.occupationId}
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+              renderSearchBar={true}
+            />
+          </>
+        )}
+      </main>
     </div>
   );
 }
