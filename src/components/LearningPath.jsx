@@ -215,7 +215,7 @@ const LearningPath = () => {
                         }`}
                         onClick={() => setActiveTab('courses')}
                     >
-                        📚 Recommended Courses
+                         Recommended Courses
                     </button>
                     <button
                         className={`flex-1 py-4 px-6 rounded-xl font-semibold transition-all duration-300 ${
@@ -225,7 +225,7 @@ const LearningPath = () => {
                         }`}
                         onClick={() => setActiveTab('llm-search')}
                     >
-                        🤖 AI Course Discovery
+                        Smart Course Finder
                     </button>
                 </div>
 
@@ -273,7 +273,7 @@ const LearningPath = () => {
                 {activeTab === 'llm-search' && (
                     <div className="space-y-8 animate-fade-in">
                         <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-8 shadow-lg text-center">
-                            <h2 className="text-2xl font-bold mb-4 text-gray-800">🤖 AI-Powered Course Discovery</h2>
+                            <h2 className="text-2xl font-bold mb-4 text-gray-800">Smart Course Finder</h2>
                             <p className="text-gray-600 mb-6">Ask our AI assistant to find specific courses, skills, or learning resources tailored to your needs</p>
                             
                             {/* Search Input */}
